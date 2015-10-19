@@ -1,0 +1,221 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="JS/jquery-easyui-1.2.6/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="JS/jquery-easyui-1.2.6/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="JS/jquery-easyui-1.2.6/locale/easyui-lang-zh_CN.js"></script>
+<link rel="stylesheet" href="JS/jquery-easyui-1.2.6/themes/default/easyui.css" type="text/css">
+<link rel="stylesheet" href="JS/jquery-easyui-1.2.6/themes/icon.css" type="text/css">
+<link rel="stylesheet" href="CSS/css.css" type="text/css">
+<script type="text/javascript">
+$(function(){
+	/*账单信息*/
+	 $('#billSrch').datagrid({
+        singleSelect:true,
+        fit:true,
+        url:'',
+        fitColumns:true,
+        columns:[
+            [
+                {
+                    field:'billId',
+                    title:'账单号',
+                    width:10,
+                    align:'center'
+                },
+                {
+                    field:'tabId',
+                    title:'餐台号',
+                    width:20,
+                    align:'center'
+                },
+                {
+                    field:'member_id',
+                    title:'会员编号',
+                    width:30,
+                    align:'center'
+                },
+                {
+                    field:'money_ying',
+                    title:'应收金额',
+                    width:30,
+                    align:'center'
+                },
+                {
+                    field:'money_true',
+                    title:'实收金额',
+                    width:30,
+                    align:'center'
+                },
+                {
+                    field:'time_acc',
+                    title:'结算时间',
+                    width:30,
+                    align:'center'
+                },
+                {
+                    field:'state_acc',
+                    title:'结算状态',
+                    width:30,
+                    align:'center'
+                },
+                {
+                    field:'if_invo',
+                    title:'是否开具发票',
+                    width:30,
+                    align:'center'
+                },
+                {
+                    field:'text_acc',
+                    title:'结算备注',
+                    width:30,
+                    align:'center'
+                }
+            ]
+        ],
+        pagination:true,
+        pageSize:8       
+    });
+    
+    /*消费明细*/
+     $('#buydtl').datagrid({
+        singleSelect:true,
+        fit:true,
+        url:'',
+        fitColumns:true,
+        columns:[
+            [
+                {
+                    field:'a',
+                    title:'账单号',
+                    width:10,
+                    align:'center'
+                },
+                {
+                    field:'b',
+                    title:'菜品名称',
+                    width:20,
+                    align:'center'
+                },
+                {
+                    field:'c',
+                    title:'菜品ID',
+                    width:30,
+                    align:'center'
+                },
+                {
+                    field:'d',
+                    title:'单价',
+                    width:30,
+                    align:'center'
+                },
+                {
+                    field:'e',
+                    title:'消费数量',
+                    width:30,
+                    align:'center'
+                },
+                {
+                    field:'f',
+                    title:'优惠金额',
+                    width:30,
+                    align:'center'
+                },
+                {
+                    field:'g',
+                    title:'消费金额',
+                    width:30,
+                    align:'center'
+                },
+                {
+                    field:'h',
+                    title:'服务生',
+                    width:30,
+                    align:'center'
+                },
+                {
+                    field:'i',
+                    title:'退单数量',
+                    width:30,
+                    align:'center'
+                },
+                {
+                    field:'i',
+                    title:'退单备注',
+                    width:30,
+                    align:'center'
+                }
+            ]
+        ],
+        pagination:true,
+        pageSize:8       
+    });
+    
+    /*格式化时间*/
+   function ff() {
+		    var dt = new Date();
+		    var year = dt.getFullYear();
+		    var month = dt.getMonth() + 1;
+		    var day = dt.getDate();
+		
+		    var h = dt.getHours();
+		    var m = dt.getMinutes();
+		    var s = dt.getSeconds();
+		    var dd =day+"/"+month+"/"+year ;
+		    var ss=h+":"+m+":"+s;
+		    $('#dd1').datebox('setValue', dd);
+		    $('#dd2').datebox('setValue', dd);
+		    $('#ss1').timespinner('setValue', "00:00:01");   
+		    $('#ss2').timespinner('setValue',  ss);  
+	}
+	window.onload = ff;
+
+});
+
+</script>
+</head>
+<body>
+<div id="cc" class="easyui-layout" fit="true" style="width:100%;height:100%;">
+    <div region="south" title="消费明细" split="true" style="height:250px;">
+       	<table id="buydtl"></table>
+    </div>
+  <div region="north" title="火锅店管理系统" split="true" style="height:100px;" align="center">
+       	<table>
+       		<tr>
+       			<td style="width:520px">       		
+       				日期：<input id="dd1" type="text" style="width:85px;" class="easyui-datebox"/>
+       				<input id="ss1" class="easyui-timespinner" style="width:80px;" showSeconds="true" />    
+       			至
+       				<input id="dd2" type="text" style="width:85px;" class="easyui-datebox"/>
+       				<input id="ss2" class="easyui-timespinner" style="width:80px;" showSeconds="true" />
+       				<select id="cc" class="easyui-combobox" style="width:80px;">    
+					   <option value="today">今天</option>
+						<option value="yeatday">昨天</option>
+						<option value="aftday">明天</option>
+						<option value="week">最近一周</option>
+						<option value="allday">所有时间</option>
+					</select>  		
+       			</td>	
+       		<td rowspan="2">
+	       		<div class="sea">
+	       			<a href="#">查询</a>
+	       		</div>
+       		</td>	
+       	</tr>
+       		<tr>
+       			<td>
+       				账单号：<input type="text" id="billId" style="width:440px"/>
+       			</td>
+       		</tr>
+       	</table>
+    </div>
+    <div region="center" title="所有账单消息" style="padding:5px;">    
+            <div style="width: 100%;height: 100%;">
+                <table id="billSrch">
+                </table>
+           </div>     
+    </div>
+</div>
+</body>
+</html>
