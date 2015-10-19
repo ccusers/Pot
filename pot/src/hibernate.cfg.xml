@@ -7,10 +7,10 @@
 	<property name="show_sql">true</property>
 	<property name="myeclipse.connection.profile">Oracle</property>
 	<property name="connection.url">
-		jdbc:oracle:thin:@localhost:1522:orcl
+		jdbc:oracle:thin:@localhost:1521:orcl
 	</property>
 	<property name="connection.username">SCOTT</property>
-	<property name="connection.password">tigger</property>
+	<property name="connection.password">123456</property>
 	<property name="connection.driver_class">
 		oracle.jdbc.OracleDriver
 	</property>
@@ -18,5 +18,7 @@
 		org.hibernate.dialect.Oracle9Dialect
 	</property>
 	<property name="hbm2ddl.auto">update</property>
+	<mapping resource="com/pro/domain/Table.hbm.xml" />
+	<mapping resource="com/pro/domain/TabState.hbm.xml" />
 </session-factory>
 </hibernate-configuration>
