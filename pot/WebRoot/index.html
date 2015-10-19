@@ -1,0 +1,765 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="JS/jquery-easyui-1.2.6/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="JS/jquery-easyui-1.2.6/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="JS/jquery-easyui-1.2.6/locale/easyui-lang-zh_CN.js"></script>
+<link rel="stylesheet" href="JS/jquery-easyui-1.2.6/themes/default/easyui.css" type="text/css">
+<link rel="stylesheet" href="JS/jquery-easyui-1.2.6/themes/icon.css" type="text/css">
+<link rel="stylesheet" href="CSS/css.css" type="text/css">
+<script type="text/javascript">
+$(function () {
+    /*
+     大厅的分页数据显示
+     by：冯思语
+     */
+    $(function () {
+        var flag;
+        $('#canzuo').datagrid({
+            singleSelect:true,
+            fit:true,
+            idField:'userID',
+            url:'UsersSerlvet?method=queryUser',
+            fitColumns:true,
+            columns:[
+                [
+                    {
+                        field:'a',
+                        title:'餐台号',
+                        width:220,
+                        align:'center'
+                    },
+                    {
+                        field:'b',
+                        title:'状态',
+                        width:220,
+                        align:'center'
+                    },
+                    {
+                        field:'c',
+                        title:'消费金额',
+                        width:220,
+                        align:'center'
+                    },
+                    {
+                        field:'d',
+                        title:'进店时间',
+                        width:220,
+                        align:'center'
+                    },
+                    {
+                        field:'e',
+                        title:'已用时间',
+                        width:220,
+                        align:'center'
+                    },
+                    {
+                        field:'f',
+                        title:'备注',
+                        width:220,
+                        align:'center'
+                    },
+                    {
+                        field:'g',
+                        title:'最低消费',
+                        hidden:true,
+                        width:220,
+                        align:'center'
+                    },
+                    {
+                        field:'h',
+                        title:'房间类型',
+                        hidden:true,
+                        width:220,
+                        align:'center'
+                    }
+                ]
+            ],
+            pagination:true,
+            pageSize:8,
+            toolbar:'#toolbara',
+            /*
+             餐桌列表的右键菜单事件
+             */
+            onRowContextMenu:function (e, field) {
+                e.preventDefault();
+                if (!$('#mm').length) {
+                    createColumnMenu();
+                }
+                $('#mm').menu('show', {
+                    left:e.pageX,
+                    top:e.pageY
+                });
+            },
+            /*
+             餐桌列表根据状态呈现不同的效果样式
+             */
+            rowStyler:function (index, row) {
+                if (row.b == '可供') {
+                    return 'color:green;';
+                } else if (row.b == '预定') {
+                    return 'background-color:yellow;color:#000000;';
+                } else if (row.b == '占用') {
+                    return 'background-color:red;color:#000000';
+                }
+            },
+            /*
+             餐桌列表单击事件 用于加载左边的状态栏的
+             */
+            onClickRow:function () {
+                var arr = $('#canzuo').datagrid('getSelections');
+                var rr = arr[0].d;
+                var yy = rr.split(' ');
+                $('#ztfrm').form('load', {
+                    a:arr[0].a,
+                    b:arr[0].g,
+                    c:yy[1],
+                    d:arr[0].e,
+                    e:arr[0].c,
+                    f:arr[0].b
+                })
+            }
+        })
+    });
+    /*
+     已用时间的计算和控制
+     */
+    $(function () {
+        var dd = $('#canzuo').datagrid('getRows');
+        for (var i = 0; i < dd.length; i++) {
+            var d = new Date();
+            var yyyy = d.getFullYear();
+            var m = d.getMonth() + 1;
+            var day = d.getDate();
+            var hour = d.getHours();
+            var mm = d.getMinutes();
+            var tt = dd[i].d;
+            var str = '';
+            if (tt == '') {
+                str = '';
+            } else {
+                var str1 = tt.substring(0, 4);
+                var str2 = tt.substring(5, 7);
+                var str3 = tt.substring(8, 10);
+                var str4 = tt.substring(11, 13);
+                var str5 = tt.substring(14, 16);
+                var num1 = (parseInt(yyyy) - parseInt(str1)) * 365 * 24;
+                var num2 = (parseInt(m) - parseInt(str2)) * 30 * 24;
+                var num3 = (parseInt(day) - parseInt(str3)) * 24;
+                var num4 = parseInt(hour) - parseInt(str4);
+                var num5 = parseInt(mm) - parseInt(str5);
+                str = num1 + num2 + num3 + num4 + '小时' + num5 + '分钟';
+            }
+            $('#canzuo').datagrid('updateRow', {
+                index:i,
+                row:{
+                    e:str
+                }
+            });
+        }
+        setTimeout(this, 10);
+    });
+    /*
+     餐桌消费明细 datagrid
+     */
+    $(function () {
+        var flag;
+        $('#canzuoxf').datagrid({
+            singleSelect:true,
+            fit:true,
+            idField:'userID',
+            url:'UsersSerlvet?method=queryUser',
+            fitColumns:true,
+            columns:[
+                [
+                    {
+                        field:'userID',
+                        title:'消费项目',
+                        width:220,
+                        align:'center'
+                    },
+                    {
+                        field:'user_Name',
+                        title:'项目单价',
+                        width:220,
+                        align:'center'
+                    },
+                    {
+                        field:'c',
+                        title:'打折比例',
+                        width:220,
+                        align:'center'
+                    },
+                    {
+                        field:'e',
+                        title:'消费数量',
+                        width:220,
+                        align:'center'
+                    },
+                    {
+                        field:'f',
+                        title:'消费金额',
+                        width:220,
+                        align:'center'
+                    },
+                    {
+                        field:'g',
+                        title:'消费时间',
+                        width:220,
+                        align:'center'
+                    },
+                    {
+                        field:'h',
+                        title:'服务生',
+                        width:220,
+                        align:'center'
+                    },
+                    {
+                        field:'t',
+                        title:'记账人',
+                        width:220,
+                        align:'center'
+                    },
+                    {
+                        field:'q',
+                        title:'备注',
+                        width:220,
+                        align:'center'
+                    }
+
+                ]
+            ]
+        })
+    });
+})
+/*
+ 底部系统时间的显示
+ */
+function ff() {
+    var dt = new Date();
+    var year = dt.getFullYear();
+    var month = dt.getMonth() + 1;
+    var day = dt.getDate();
+
+    var h = dt.getHours();
+    var m = dt.getMinutes();
+    var s = dt.getSeconds();
+    var time = year + "年" + month + "月" + day + "日  " + h + ":" + m + ":" + s;
+    document.getElementById("time").value = time;
+    setTimeout("ff()", 1);
+}
+window.onload = ff;
+/*
+ 绑定顶部菜单的单击事件
+ */
+$(function () {
+    /*
+     顾客开单dialog打开事件
+     */
+    $('a[tit="gkkd"]').click(function () {
+        var arr = $('#canzuo').datagrid('getSelections');
+        var rr = arr[0].b;
+        if (rr != '可供') {
+            $.messager.show({
+                title:'友情提示',
+                msg:'请选择一个可供的餐台'
+            })
+        } else {
+            $('#gkkdfrm').form('load', {
+                a:arr[0].a,
+                b:arr[0].h,
+                c:arr[0].g
+            })
+            $('#gkkd').dialog('open');
+        }
+    });
+    /*
+     加载服务员的datagrid
+     */
+    $('#fwydata').datagrid({
+        singleSelect:true,
+        fit:true,
+        url:'UsersSerlvet?method=queryUser',
+        fitColumns:true,
+        columns:[
+            [
+                {
+                    field:'a',
+                    title:'编号',
+                    width:10,
+                    align:'center'
+                },
+                {
+                    field:'b',
+                    title:'姓名',
+                    width:20,
+                    align:'center'
+                },
+                {
+                    field:'c',
+                    title:'服务生等级',
+                    width:30,
+                    align:'center'
+                }
+            ]
+        ],
+        onDblClickRow:function () {
+            var arr = $('#fwydata').datagrid('getSelections');
+            $('#fwytext').attr('value', arr[0].b);
+            $('#fwydia').dialog('close');
+        }
+    });
+    /*
+     顾客开单text的双击事件
+     */
+    $('#fwytext').dblclick(function () {
+        $('#fwydia').dialog('open');
+    });
+    /*
+     增加消费里面菜单的加载事件
+     */
+    $('#cddata').datagrid({
+        singleSelect:true,
+        fit:true,
+        url:'UsersSerlvet?method=queryUser',
+        fitColumns:true,
+        columns:[
+            [
+                {
+                    field:'a',
+                    title:'编号',
+                    width:10,
+                    align:'center'
+                },
+                {
+                    field:'b',
+                    title:'菜品名称',
+                    width:20,
+                    align:'center'
+                },
+                {
+                    field:'c',
+                    title:'单位',
+                    width:30,
+                    align:'center'
+                },
+                {
+                    field:'d',
+                    title:'单价',
+                    width:30,
+                    align:'center'
+                },
+                {
+                    field:'e',
+                    title:'当前库存',
+                    width:30,
+                    align:'center'
+                }
+            ]
+        ]
+    });
+    /*
+     增加消费里面右边点完菜后的加载
+     */
+    $('#jcdata').datagrid({
+        singleSelect:true,
+        fit:true,
+        url:'UsersSerlvet?method=queryUser',
+        fitColumns:true,
+        columns:[
+            [
+                {
+                    field:'a',
+                    title:'名称',
+                    width:10,
+                    align:'center'
+                },
+                {
+                    field:'b',
+                    title:'单价',
+                    width:20,
+                    align:'center'
+                },
+                {
+                    field:'c',
+                    title:'折扣',
+                    width:30,
+                    align:'center'
+                },
+                {
+                    field:'d',
+                    title:'数量',
+                    width:30,
+                    align:'center'
+                },
+                {
+                    field:'e',
+                    title:'单位',
+                    width:30,
+                    align:'center'
+                },
+                {
+                    field:'f',
+                    title:'金额',
+                    width:30,
+                    align:'center'
+                },
+                {
+                    field:'g',
+                    title:'记账人',
+                    width:30,
+                    align:'center'
+                },
+                {
+                    field:'h',
+                    title:'点菜时间',
+                    width:30,
+                    align:'center'
+                },
+                {
+                    field:'i',
+                    title:'项目类别',
+                    width:30,
+                    align:'center'
+                }
+            ]
+        ],
+        pagination:true,
+        pageSize:8,
+        toolbar:[
+            {
+                text:'删菜',
+                iconCls:'icon-remove'
+            },
+            {
+                text:'备注',
+                iconCls:'icon-add'
+            },
+            {
+                text:'催菜',
+                iconCls:'icon-remove'
+            },
+            {
+                text:'转台',
+                iconCls:'icon-remove'
+            },
+        ]
+    })
+    $('#qdbt').click(function(){
+        $('#gkkd').dialog('close');
+        $('#zjxfdia').dialog('open');
+    })
+})
+</script>
+</head>
+<body>
+<div id="cc" class="easyui-layout" fit="true" style="width:100%;height:100%;">
+    <div region="south" title="系统" split="true" style="height:60px;">
+        <table style="width: 100%; font-size:12px; margin-top:5px;">
+            <tr>
+                <td>
+                    当前登录用户：admin
+                </td>
+                <td>
+                    系统时间：<input type="text" id="time" disabled="disabled"
+                                style="background-color: #ffffff; border:0px; color:#000000;width: 200px;"/>
+                </td>
+                <td>
+                    版权所有：76班第四小组
+                </td>
+                <td>
+                    本人QQ：770670343 求约！(已报警！！)
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div region="north" title="火锅店管理系统" split="true" style="height:100px;">
+        <ul class="titletop">
+            <li><a tit="gkkd" href="#">顾客开单</a></li>
+            <li><a tit="gk=kkd" href="#">宾客结账</a></li>
+            <li><a tit="gk=kkd" href="#">快餐外卖</a></li>
+            <li><a tit="gk=kkd" href="#">宴席预定</a></li>
+            <li><a tit="gk=kkd" href="#">会员管理</a></li>
+            <li><a tit="gk=kkd" href="#">营业查询</a></li>
+            <li><a tit="gk=kkd" href="#">财务管理</a></li>
+            <li><a tit="gk=kkd" href="#">交班管理</a></li>
+        </ul>
+    </div>
+    <div region="west" split="true" title="状态显示" style="width:200px;">
+        <div id="aa" class="easyui-accordion" fit="true" style="width:300px;height:200px;">
+            <div title="状态" iconCls="icon-save" selected="true" style="overflow:auto;">
+                <form id="ztfrm">
+                    <div class="zhuangtai">餐台号：<input type="text" name="a" zt="zt" readonly="readonly"
+                                                      style="width: 60px;"></div>
+                    <div>
+                        <table class="zhuangtaitb">
+                            <tr>
+                                <td>最低消费：</td>
+                                <td><input type="text" name="b" zt="zt" readonly="readonly"></td>
+                            </tr>
+                            <tr>
+                                <td>进店时间：</td>
+                                <td><input type="text" name="c" zt="zt" readonly="readonly"></td>
+                            </tr>
+                            <tr>
+                                <td>已用时间：</td>
+                                <td><input type="text" name="d" zt="zt" readonly="readonly"></td>
+                            </tr>
+                            <tr>
+                                <td>消费金额：</td>
+                                <td><input type="text" name="e" zt="zt" readonly="readonly"></td>
+                            </tr>
+                            <tr>
+                                <td>餐台状态：</td>
+                                <td><input type="text" name="f" zt="zt" readonly="readonly"></td>
+                            </tr>
+                        </table>
+                </form>
+            </div>
+            <div class="zhuangtai">餐台总状态</div>
+            <div>
+                <form id="zztfrm">
+                    <table class="zhuangtaitb">
+                        <tr>
+                            <td>餐台总数：</td>
+                            <td><input type="text" name="a" zt="zt" readonly="readonly"></td>
+                        </tr>
+                        <tr>
+                            <td>当前占用：</td>
+                            <td><input type="text" name="b" zt="zt" readonly="readonly"></td>
+                        </tr>
+                        <tr>
+                            <td>当前可供：</td>
+                            <td><input type="text" name="c" zt="zt" readonly="readonly"></td>
+                        </tr>
+                        <tr>
+                            <td>当前预定：</td>
+                            <td><input type="text" name="d" zt="zt" readonly="readonly"></td>
+                        </tr>
+                        <tr>
+                            <td>上座率：：</td>
+                            <td><input type="text" name="e" zt="zt" readonly="readonly"></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div title="通讯" iconCls="icon-reload" style="padding:10px;">
+            <div style="width: 100%;height: 70%;">
+                <table style="font-size: 12px; ">
+                    <tr>
+                        <td>admin:</td>
+                        <td>今天天气真好！</td>
+                    </tr>
+                    <tr>
+                        <td>xiaomi:</td>
+                        <td>好像明天要下雨！</td>
+                    </tr>
+                </table>
+            </div>
+            <div style="width: 100%;height: 30%;">
+                <textarea rows="3" cols="20"></textarea>
+                <br>
+                <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true">发送</a>
+                <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true">重写</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div region="center" title="数据资料" style="padding:5px;background:#eee;">
+    <div id="tt" class="easyui-tabs" fit="true" style="width:500px;height:250px;">
+        <div title="大厅" style="width: 100%;height: 100%;">
+            <div style="width: 100%;height: 70%;">
+                <table id="canzuo">
+                    <tr>
+                        <td>T001</td>
+                        <td>可供</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>100</td>
+                        <td>大厅</td>
+                    </tr>
+                    <tr>
+                        <td>T002</td>
+                        <td>预定</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>T003</td>
+                        <td>占用</td>
+                        <td>200</td>
+                        <td>2015-10-16 16:03:53</td>
+                        <td></td>
+                        <td>多放点辣</td>
+                        <td>100</td>
+                        <td>大厅</td>
+                    </tr>
+                </table>
+                <div id="toolbara">
+                    <select style="width: 200px; margin-top: 5px;">
+                        <option>全部</option>
+                        <option>大厅</option>
+                        <option>普通包厢</option>
+                        <option>豪华包厢</option>
+                    </select>
+                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true">显示全部</a>
+                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true">显示占用</a>
+                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true">显示可用</a>
+                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true">显示预定</a>
+                </div>
+            </div>
+            <div style="width: 100%;height: 30%;">
+                <table id="canzuoxf"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 表格的右键菜单栏-->
+<div id="mm" class="easyui-menu" style="width:120px;">
+    <div>宾客结账</div>
+    <div>增加消费</div>
+    <div class="menu-sep"></div>
+    <div iconCls="icon-add">顾客开单</div>
+    <div>顾客预订</div>
+    <div class="menu-sep"></div>
+    <div>修改登记</div>
+    <div>更换餐台</div>
+    <div>合并账单</div>
+</div>
+<!-- 表格的右键菜单栏-->
+
+<!-- 顾客开单的dialog-->
+<div title="顾客开单" class="easyui-dialog" id="gkkd" style="width: 400px; height: 280px;" closed="true">
+    <form id="gkkdfrm">
+        <fieldset>
+            <legend>
+                餐桌信息
+            </legend>
+            <div>
+                <table>
+                    <tr>
+                        <td>餐台编号：</td>
+                        <td><input type="text" name="a" zt="zt" readonly="readonly"></td>
+                        <td>房间类型：</td>
+                        <td><input type="text" name="b" zt="zt" readonly="readonly"></td>
+                    </tr>
+                    <tr>
+                        <td>最低消费：</td>
+                        <td><input type="text" name="c" zt="zt" readonly="readonly"></td>
+                        <td>计费类型：</td>
+                        <td>不记房间费</td>
+                    </tr>
+                </table>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>
+                数据信息
+            </legend>
+            <div>
+                <table>
+                    <tr>
+                        <td>顾客人数：</td>
+                        <td><input type="text" name="d" style="width: 100px;" value="1"></td>
+                        <td>服务生：</td>
+                        <td><input type="text" name="e" style="width: 100px;" id="fwytext"></td>
+                    </tr>
+                    <tr>
+                        <td>开单备注：</td>
+                        <td colspan="3">
+                            <textarea rows="3" cols="35"></textarea>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </fieldset>
+        <p align="right" style="margin-right:20px;">
+            <a href="#" class="easyui-linkbutton" data-options="plain:true" id="qdbt">确定</a>
+            <a href="#" class="easyui-linkbutton" data-options="plain:true">取消</a>
+        </p>
+    </form>
+    <!-- 服务员的dialog-->
+    <div title="选择服务员" class="easyui-dialog" id="fwydia" style="width: 300px; height: 200px;" closed="true">
+        <table id="fwydata">
+            <tr>
+                <td>001</td>
+                <td>小雨</td>
+                <td>高级服务员</td>
+            </tr>
+        </table>
+    </div>
+    <!-- 服务员的dialog-->
+
+    <!-- 增加消费的dialog-->
+    <div title="增加消费" class="easyui-dialog" id="zjxfdia" style="width: 1024px; height: 586px;" closed="true">
+        <div class="zjxf">
+            <div class="zjxf_top">
+                选择菜品
+            </div>
+            <div class="zjxf_zhong">
+                <table name="a">
+                    <tr>
+                        <td>项目搜索：</td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td>消费数量：</td>
+                        <td><input type="text"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="zjxf_xia">
+                <div id="caidan" class="easyui-tabs" fit="true" style="width:500px;height:250px;">
+                    <div title="项目清单" style="width: 100%;height: 100%;">
+                        <table id="cddata">
+                            <tr>
+                                <td>001</td>
+                                <td>米饭</td>
+                                <td>份</td>
+                                <td>2</td>
+                                <td>20</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div title="项目列表" style="width: 100%;height: 100%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="zjxf">
+            <div class="zjxf_top">
+                顾客消费清单
+            </div>
+            <div class="zjxf_zhong">
+                <table name="b">
+                    <tr>
+                        <td>合计金额：</td>
+                        <td><input type="text"></td>
+                        <td>点单数量：</td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><input type="button" value="落单"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="zjxf_xia">
+                <table id="jcdata">
+
+                </table>
+            </div>
+        </div>
+        <!-- 增加消费的dialog-->
+    </div>
+    <!-- 顾客开单的dialog-->
+</div>
+</body>
+</html>

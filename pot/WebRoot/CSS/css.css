@@ -1,0 +1,26 @@
+*{margin: 0px;padding: 0px;}
+body{font-size: 12px;}
+table{font-size: 12px;}
+.zhuangtai{background-color: #b58341;font-size: 24px;color: #ffffff;}
+.zhuangtaitb{font-size: 12px;}
+.zhuangtaitb tr{height: 29px;}
+.titletop{list-style-type:none}
+.titletop li{float: left;}
+.titletop li a{display: block;width:150px;height: 65px;line-height: 65px;text-decoration:none;color:#000;text-align: center;transition:all 0.5s ease;
+    -ms-transition:all 0.5s ease;font-size: 16px;}
+.titletop li a:hover{color:#FFF; background-color: #83ff00;}
+input[zt="zt"] {width:100px;background-color: transparent;border: 0px;}
+fieldset{padding: 10px;margin: 10px;}
+.zjxf{height: 100%;width: 50%;float: left;background-color: #ff8d40;border: 0px;}
+.zjxf_top{border: 2px solid #000000;width: 90%;height: 10%;margin: 10px; border-radius:5px;line-height: 55px;text-align: center;font-size: 16px;font-weight: bold;}
+.zjxf_zhong{border: 2px solid #000000;width: 90%;height: 20%;margin: 10px;border-radius:5px}
+.zjxf_zhong table[name="a"]{margin: 0px auto;margin-top: 20px;}
+.zjxf_zhong table[name="a"] tr{height: 30px;}
+.zjxf_zhong table[name="a"] input{border-radius:6px}
+.zjxf_zhong table[name="b"]{margin-top: 10px; margin-left: 5px;}
+.zjxf_zhong table[name="b"] tr{height: 40px;}
+.zjxf_zhong table[name="b"] input[type="text"] {border-radius:5px;background-color: transparent;border: 0px; }
+.zjxf_zhong table[name="b"] input[type="button"]{border-radius:15px;width: 80px;height: 30px; margin-left: 10px;background-color: #12ff03;border: 1px solid #000000;}
+.zjxf_zhong table[name="b"] input[type="button"]:hover{;background-color: #ff350e;}
+.zjxf_xia{border: 2px solid #000000;width: 90%;height: 60%;margin: 10px;border-radius:5px}
+#jcdata{background-color: #ffffff;}
