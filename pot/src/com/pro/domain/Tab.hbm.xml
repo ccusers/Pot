@@ -5,7 +5,7 @@
 <hibernate-mapping 
 	package="com.pro.domain">
 
-	<class name="Tab" table="AuctionUser" lazy="Tab">
+	<class name="Tab" table="AuctionUser" lazy="true">
 		<comment>Users may bid for or sell auction items.</comment>
 		
 		<id name="tab_id">
