@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping 
+	package="com.pro.domain">
+
+	<class name="Member" table="MEMBER" lazy="true">
+		<comment>Users may bid for or sell auction items.</comment>
+		
+		<id name="member_id">
+			<generator class="native"/>
+		</id>
+		<property name="member_name"></property>
+		<property name="member_type"></property>
+		<property name="member_grade"></property>
+		<property name="member_rate"></property>
+		<property name="member_balance"></property>
+		<property name="member_integral"></property>
+		<property name="member_expense"></property>
+		<property name="member_birthday"></property>
+		<property name="member_tel"></property>
+		<property name="member_datetime"></property>
+	</class>
+	
+</hibernate-mapping>
