@@ -3,11 +3,9 @@
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.LockMode;
 import org.hibernate.criterion.DetachedCriteria;
 
 /**

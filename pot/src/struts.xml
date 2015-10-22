@@ -2,18 +2,10 @@
 <!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 <struts>
 	 <package name="default" namespace="" extends="struts-default">
-<!-- 		<action name="addCustomer" class="customerAction" method="addCustomer"> -->
-<!-- 			<result name="success">/customer.html</result> -->
-<!-- 		</action> -->
-<!-- 		<action name="deleteCustomer" class="customerAction" method="deleteCustomer"> -->
-<!-- 			<result name="success">/customer.html</result> -->
-<!-- 		</action> -->
-<!-- 		<action name="updateCustomer" class="customerAction" method="updateCustomer"> -->
-<!-- 			<result name="success">/customer.html</result> -->
-<!-- 		</action> -->
-<!-- 		<action name="findCustomerPage" class="customerAction" method="findCustomerPage"> -->
-<!-- 			<result name="success">/customer.html</result> -->
-<!-- 		</action> -->
-		
+	 
+ 		<action name="pageTab" class="com.pro.action.TabAction" method="pageTab"> 
+ 			<result name="success">/index.html</result> 
+ 		</action> 
+
     </package>
 </struts>    

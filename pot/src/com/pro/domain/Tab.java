@@ -1,85 +1,134 @@
 package com.pro.domain;
 
-public class Tab {
+import java.util.HashSet;
+import java.util.Set;
 
-	private int tab_Id;//餐台号
-	
-	private String tab_name;//餐台名
-	
-	private TabState tabState;//状态表
+/**
+ * Tab entity. @author MyEclipse Persistence Tools
+ */
 
-	private String tab_type;//餐台类型
-	
-	private Set<OrderTable> orderTable=new HashSet<OrderTable> ;//订单表
-	
-	private String tab_comeDate;//进店时间
-	
-	private int tab_con;//最低消费
-	
-	private String tab_other;//备注
+public class Tab implements java.io.Serializable {
 
-	public int getTab_Id() {
-		return tab_Id;
+	// Fields
+
+	private Integer tabId;
+	private Tabstate tabstate;
+	private Ordertable ordertable;
+	private String tabName;
+	private String tabType;
+	private String tabComedate;
+	private String tabCon;
+	private String tabOther;
+	private Set reserves = new HashSet(0);
+	private Set kaidans = new HashSet(0);
+
+	// Constructors
+
+	/** default constructor */
+	public Tab() {
 	}
 
-	public void setTab_Id(int tabId) {
-		tab_Id = tabId;
+	/** minimal constructor */
+	public Tab(Integer tabId) {
+		this.tabId = tabId;
 	}
 
-	public String getTab_name() {
-		return tab_name;
+	/** full constructor */
+	public Tab(Integer tabId, Tabstate tabstate, Ordertable ordertable,
+			String tabName, String tabType, String tabComedate, String tabCon,
+			String tabOther, Set reserves, Set kaidans) {
+		this.tabId = tabId;
+		this.tabstate = tabstate;
+		this.ordertable = ordertable;
+		this.tabName = tabName;
+		this.tabType = tabType;
+		this.tabComedate = tabComedate;
+		this.tabCon = tabCon;
+		this.tabOther = tabOther;
+		this.reserves = reserves;
+		this.kaidans = kaidans;
 	}
 
-	public void setTab_name(String tabName) {
-		tab_name = tabName;
+	// Property accessors
+
+	public Integer getTabId() {
+		return this.tabId;
 	}
 
-	public TabState getTabState() {
-		return tabState;
+	public void setTabId(Integer tabId) {
+		this.tabId = tabId;
 	}
 
-	public void setTabState(TabState tabState) {
-		this.tabState = tabState;
+	public Tabstate getTabstate() {
+		return this.tabstate;
 	}
 
-	public String getTab_type() {
-		return tab_type;
+	public void setTabstate(Tabstate tabstate) {
+		this.tabstate = tabstate;
 	}
 
-	public void setTab_type(String tabType) {
-		tab_type = tabType;
+	public Ordertable getOrdertable() {
+		return this.ordertable;
 	}
 
-	public int getOrder_id() {
-		return order_id;
+	public void setOrdertable(Ordertable ordertable) {
+		this.ordertable = ordertable;
 	}
 
-	public void setOrder_id(int orderId) {
-		order_id = orderId;
+	public String getTabName() {
+		return this.tabName;
 	}
 
-	public String getTab_comeDate() {
-		return tab_comeDate;
+	public void setTabName(String tabName) {
+		this.tabName = tabName;
 	}
 
-	public void setTab_comeDate(String tabComeDate) {
-		tab_comeDate = tabComeDate;
+	public String getTabType() {
+		return this.tabType;
 	}
 
-	public int getTab_con() {
-		return tab_con;
+	public void setTabType(String tabType) {
+		this.tabType = tabType;
 	}
 
-	public void setTab_con(int tabCon) {
-		tab_con = tabCon;
+	public String getTabComedate() {
+		return this.tabComedate;
 	}
 
-	public String getTab_other() {
-		return tab_other;
+	public void setTabComedate(String tabComedate) {
+		this.tabComedate = tabComedate;
 	}
 
-	public void setTab_other(String tabOther) {
-		tab_other = tabOther;
+	public String getTabCon() {
+		return this.tabCon;
 	}
-	
+
+	public void setTabCon(String tabCon) {
+		this.tabCon = tabCon;
+	}
+
+	public String getTabOther() {
+		return this.tabOther;
+	}
+
+	public void setTabOther(String tabOther) {
+		this.tabOther = tabOther;
+	}
+
+	public Set getReserves() {
+		return this.reserves;
+	}
+
+	public void setReserves(Set reserves) {
+		this.reserves = reserves;
+	}
+
+	public Set getKaidans() {
+		return this.kaidans;
+	}
+
+	public void setKaidans(Set kaidans) {
+		this.kaidans = kaidans;
+	}
+
 }

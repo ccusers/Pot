@@ -1,81 +1,144 @@
 package com.pro.domain;
 
-import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
-public class Bill implements Serializable{
-	private int bill_id;//账单号
-	
-	private int tab1;//餐桌
-	
-	private int member;//会员
-	
-	private int money_ying;//应收金额
-	
-	private int money_true;//实收金额
-	
-	private String time_acc;//结算时间
-	
-	private String state_acc;//结算状态
-	
-	private String if_invo;//是否开发票
-	
-	private String text_acc;//结账备注
+/**
+ * Bill entity. @author MyEclipse Persistence Tools
+ */
 
-	public int getBill_id() {
-		return bill_id;
+public class Bill implements java.io.Serializable {
+
+	// Fields
+
+	private String billId;
+	private Member member;
+	private Ordertable ordertable;
+	private String tabId;
+	private Double moneyYing;
+	private Double moneyTrue;
+	private String timeAcc;
+	private String stateAcc;
+	private String ifInvo;
+	private String textAcc;
+	private Set operators = new HashSet(0);
+
+	// Constructors
+
+	/** default constructor */
+	public Bill() {
 	}
 
-	public void setBill_id(int billId) {
-		bill_id = billId;
+	/** minimal constructor */
+	public Bill(String billId) {
+		this.billId = billId;
 	}
 
-	public int getMoney_ying() {
-		return money_ying;
+	/** full constructor */
+	public Bill(String billId, Member member, Ordertable ordertable,
+			String tabId, Double moneyYing, Double moneyTrue, String timeAcc,
+			String stateAcc, String ifInvo, String textAcc, Set operators) {
+		this.billId = billId;
+		this.member = member;
+		this.ordertable = ordertable;
+		this.tabId = tabId;
+		this.moneyYing = moneyYing;
+		this.moneyTrue = moneyTrue;
+		this.timeAcc = timeAcc;
+		this.stateAcc = stateAcc;
+		this.ifInvo = ifInvo;
+		this.textAcc = textAcc;
+		this.operators = operators;
 	}
 
-	public void setMoney_ying(int moneyYing) {
-		money_ying = moneyYing;
+	// Property accessors
+
+	public String getBillId() {
+		return this.billId;
 	}
 
-	public int getMoney_true() {
-		return money_true;
+	public void setBillId(String billId) {
+		this.billId = billId;
 	}
 
-	public void setMoney_true(int moneyTrue) {
-		money_true = moneyTrue;
+	public Member getMember() {
+		return this.member;
 	}
 
-	public String getTime_acc() {
-		return time_acc;
+	public void setMember(Member member) {
+		this.member = member;
 	}
 
-	public void setTime_acc(String timeAcc) {
-		time_acc = timeAcc;
+	public Ordertable getOrdertable() {
+		return this.ordertable;
 	}
 
-	public String getState_acc() {
-		return state_acc;
+	public void setOrdertable(Ordertable ordertable) {
+		this.ordertable = ordertable;
 	}
 
-	public void setState_acc(String stateAcc) {
-		state_acc = stateAcc;
+	public String getTabId() {
+		return this.tabId;
 	}
 
-	public String getIf_invo() {
-		return if_invo;
+	public void setTabId(String tabId) {
+		this.tabId = tabId;
 	}
 
-	public void setIf_invo(String ifInvo) {
-		if_invo = ifInvo;
+	public Double getMoneyYing() {
+		return this.moneyYing;
 	}
 
-	public String getText_acc() {
-		return text_acc;
+	public void setMoneyYing(Double moneyYing) {
+		this.moneyYing = moneyYing;
 	}
 
-	public void setText_acc(String textAcc) {
-		text_acc = textAcc;
+	public Double getMoneyTrue() {
+		return this.moneyTrue;
 	}
-	
-	
+
+	public void setMoneyTrue(Double moneyTrue) {
+		this.moneyTrue = moneyTrue;
+	}
+
+	public String getTimeAcc() {
+		return this.timeAcc;
+	}
+
+	public void setTimeAcc(String timeAcc) {
+		this.timeAcc = timeAcc;
+	}
+
+	public String getStateAcc() {
+		return this.stateAcc;
+	}
+
+	public void setStateAcc(String stateAcc) {
+		this.stateAcc = stateAcc;
+	}
+
+	public String getIfInvo() {
+		return this.ifInvo;
+	}
+
+	public void setIfInvo(String ifInvo) {
+		this.ifInvo = ifInvo;
+	}
+
+	public String getTextAcc() {
+		return this.textAcc;
+	}
+
+	public void setTextAcc(String textAcc) {
+		this.textAcc = textAcc;
+	}
+
+	public Set getOperators() {
+		return this.operators;
+	}
+
+	public void setOperators(Set operators) {
+		this.operators = operators;
+	}
+
 }
