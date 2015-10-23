@@ -25,50 +25,64 @@ $(function () {
             columns:[
                 [
                     {
-                        field:'a',
+                        field:'tabName',
                         title:'餐台号',
                         width:220,
                         align:'center'
                     },
                     {
-                        field:'b',
+                        field:'tabState',
                         title:'状态',
                         width:220,
-                        align:'center'
+                        align:'center',
+                        formatter:function(value,row,index){
+                        		if(row.tabState){
+                        			return row.tabState.tab_state;
+                        		}else {
+                        			return value;
+                        		}
+                        		}
                     },
                     {
-                        field:'c',
+                        field:'orderTable',
                         title:'消费金额',
                         width:220,
-                        align:'center'
+                        align:'center',
+                        formatter:function(value,row,index){
+                        		if(row.orderTable){
+                        			return row.orderTable.money;
+                        		}else {
+                        			return value;
+                        		}
+                        		}
                     },
                     {
-                        field:'d',
+                        field:'tabComedate',
                         title:'进店时间',
                         width:220,
                         align:'center'
                     },
                     {
-                        field:'e',
+                        field:'time',
                         title:'已用时间',
                         width:220,
                         align:'center'
                     },
                     {
-                        field:'f',
+                        field:'tabOther',
                         title:'备注',
                         width:220,
                         align:'center'
                     },
                     {
-                        field:'g',
+                        field:'tabCon',
                         title:'最低消费',
                         hidden:true,
                         width:220,
                         align:'center'
                     },
                     {
-                        field:'h',
+                        field:'tabType',
                         title:'房间类型',
                         hidden:true,
                         width:220,

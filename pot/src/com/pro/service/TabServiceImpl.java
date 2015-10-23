@@ -3,13 +3,18 @@ package com.pro.service;
 import java.util.Map;
 
 import com.pro.dao.TabDao;
-import com.pro.dao.TabDaoImpl;
 
 
 public class TabServiceImpl extends BaseServiceImpl implements TabService {
-	TabDao tabDao = new TabDaoImpl();
+	private TabDao tabDao;
 	
-	public Map<String,Object> pageTab(int rows,int page){
+	
+	public void setTabDao(TabDao tabDao) {
+		this.tabDao = tabDao;
+	}
+
+
+	public Map<String,Object> pageTab(int page,int rows){
 		return tabDao.pageTab(page, rows);
 	}
 	
